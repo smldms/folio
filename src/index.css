@@ -157,6 +157,17 @@
   content: none !important;
 }
 
+.wp-block-pullquote blockquote {
+  quotes: none;
+}
+
+.wp-block-pullquote blockquote {
+  border-left: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+
 /* WordPress Core Table */
 .wp-block-table table {
   @apply w-full border-collapse my-4;

@@ -68,16 +68,15 @@
   will-change: transform;
 }
 
-/* Removed the overflow: hidden from body */
 body {
   margin: 0;
   padding: 0;
 }
 
-/* Add overflow hidden only to homepage */
-.homepage {
-  overflow: hidden;
+html, body {
+  overflow-x: hidden;
 }
+
 
 @font-face {
   font-family: 'Space Grotesk';
