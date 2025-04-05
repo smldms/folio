@@ -58,6 +58,7 @@
   @apply md:col-span-1;
 }
 
+
 /* Gallery styles */
 .gallery-masonry {
   @apply w-full;
