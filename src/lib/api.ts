@@ -1,6 +1,6 @@
 import { request, gql } from 'graphql-request';
 
-const endpoint = 'http://dsae.fr/graphql';
+const endpoint = 'http://smldms.xyz/graphql';
 
 export const getAllCategories = async () => {
   const query = gql`
