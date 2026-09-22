@@ -1,3 +1,4 @@
+import type { Project, ArtworkPresentation } from '../types/project';
 import { request, gql } from 'graphql-request';
 
 const endpoint = 'https://smldms.xyz/graphql';
@@ -152,8 +153,22 @@ export const getProjectBySlug = async (slug: string) => {
   `;
 
   try {
-    const data = await request(endpoint, query, { slug });
-    return data.projet;
+    const data = await request<{ projet: Project | null }>(endpoint, query, { slug });
+    if (!data.projet) return data.projet;
+    // Separate optional query: older WordPress schemas keep serving existing projects.
+    try {
+      const extra = await request<{ projet: { smldmsPresentation: ArtworkPresentation | null } | null }>(endpoint, gql`
+        query ArtworkPresentation($slug: ID!) {
+          projet(id: $slug, idType: SLUG) {
+            smldmsPresentation { displayMode artworkUrl introduction desktopRatio mobileRatio network platformUrl platformLabel artworkId }
+          }
+        }
+      `, { slug });
+      return { ...data.projet, artworkPresentation: extra.projet?.smldmsPresentation || null };
+    } catch (error) {
+      console.warn('Artwork presentation unavailable; retaining the existing project layout.', error);
+      return data.projet;
+    }
   } catch (error) {
     console.error('Error fetching project by slug from GraphQL API', error);
     throw new Error('Failed to fetch project by slug from GraphQL API');
