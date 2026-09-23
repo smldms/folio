@@ -219,41 +219,133 @@
   line-height: 1.7;
 }
 
-.photography-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 42px 25px;
+.photography-sequence {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(82px, 11vw, 180px);
+  padding: clamp(20px, 4vw, 64px) 0 clamp(70px, 9vw, 150px);
 }
 
-.photography-grid button {
+.photography-sequence-section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: center;
+  column-gap: clamp(16px, 2.4vw, 42px);
+}
+
+.photography-card {
+  position: relative;
+  min-width: 0;
   padding: 0;
   color: var(--portfolio-muted);
   text-align: left;
 }
 
-.photography-grid img {
+.photography-card-image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #050505;
+}
+
+.photography-card img {
   display: block;
   width: 100%;
-  height: 240px;
-  background: #050505;
+  height: auto;
+  transition: opacity 280ms ease, transform 800ms cubic-bezier(0.2, 0.7, 0, 1);
+}
+
+.photography-card:hover img {
+  opacity: 0.88;
+  transform: scale(1.008);
+}
+
+.photography-card-index {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  color: rgba(238, 238, 229, 0.72);
+  font: 10px/1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+  transition: opacity 180ms ease;
+}
+
+.photography-card:hover .photography-card-index,
+.photography-card:focus-visible .photography-card-index {
+  opacity: 1;
+}
+
+.photography-sequence-section--opening .photography-card {
+  grid-column: 1 / -1;
+}
+
+.photography-sequence-section--opening img,
+.photography-sequence-section--wide img {
+  max-height: 88vh;
   object-fit: contain;
 }
 
-.photography-card-meta {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 12px;
-  font: 12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+.photography-sequence-section--diptych .photography-card:first-child {
+  grid-column: 1 / 7;
 }
 
-.photography-card-meta strong {
-  overflow: hidden;
-  color: var(--portfolio-ink);
-  font-weight: 400;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.photography-sequence-section--diptych .photography-card:last-child {
+  grid-column: 7 / 13;
+}
+
+.photography-sequence-section--wide .photography-card {
+  grid-column: 2 / 12;
+}
+
+.photography-sequence-section--triptych .photography-card:nth-child(1) {
+  grid-column: 1 / 5;
+}
+
+.photography-sequence-section--triptych .photography-card:nth-child(2) {
+  grid-column: 5 / 9;
+}
+
+.photography-sequence-section--triptych .photography-card:nth-child(3) {
+  grid-column: 9 / 13;
+}
+
+.photography-sequence-section--isolated .photography-card {
+  grid-column: 4 / 10;
+}
+
+.photography-sequence-section--isolated.photography-sequence-section--left .photography-card {
+  grid-column: 2 / 8;
+}
+
+.photography-sequence-section--isolated.photography-sequence-section--right .photography-card {
+  grid-column: 6 / 12;
+}
+
+.photography-sequence-section--asymmetric .photography-card:first-child {
+  grid-column: 1 / 9;
+}
+
+.photography-sequence-section--asymmetric .photography-card:last-child {
+  grid-column: 10 / 13;
+}
+
+.photography-sequence-section--asymmetric.photography-sequence-section--right .photography-card:first-child {
+  grid-column: 5 / 13;
+  grid-row: 1;
+}
+
+.photography-sequence-section--asymmetric.photography-sequence-section--right .photography-card:last-child {
+  grid-column: 1 / 4;
+  grid-row: 1;
+}
+
+.photography-sequence-section--diptych .photography-card:only-child,
+.photography-sequence-section--triptych .photography-card:only-child,
+.photography-sequence-section--asymmetric .photography-card:only-child,
+.photography-sequence-section--asymmetric.photography-sequence-section--right .photography-card:only-child {
+  grid-column: 3 / 11;
 }
 
 .photography-empty {
@@ -348,8 +440,8 @@
     grid-column: 1 / -1;
   }
 
-  .photography-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .photography-sequence {
+    gap: 100px;
   }
 }
 
@@ -442,13 +534,57 @@
     margin-top: 0;
   }
 
-  .photography-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 14px;
+  .photography-sequence {
+    gap: 72px;
+    padding-top: 12px;
   }
 
-  .photography-grid img {
-    height: 180px;
+  .photography-sequence-section {
+    column-gap: 14px;
+  }
+
+  .photography-sequence-section--opening .photography-card,
+  .photography-sequence-section--wide .photography-card {
+    grid-column: 1 / -1;
+  }
+
+  .photography-sequence-section--triptych {
+    row-gap: 42px;
+  }
+
+  .photography-sequence-section--triptych .photography-card:nth-child(1) {
+    grid-column: 1 / 7;
+  }
+
+  .photography-sequence-section--triptych .photography-card:nth-child(2) {
+    grid-column: 7 / 13;
+  }
+
+  .photography-sequence-section--triptych .photography-card:nth-child(3) {
+    grid-column: 3 / 11;
+    grid-row: 2;
+  }
+
+  .photography-sequence-section--isolated .photography-card,
+  .photography-sequence-section--isolated.photography-sequence-section--left .photography-card,
+  .photography-sequence-section--isolated.photography-sequence-section--right .photography-card {
+    grid-column: 2 / 12;
+  }
+
+  .photography-sequence-section--asymmetric .photography-card:first-child,
+  .photography-sequence-section--asymmetric.photography-sequence-section--right .photography-card:first-child {
+    grid-column: 1 / 10;
+  }
+
+  .photography-sequence-section--asymmetric .photography-card:last-child,
+  .photography-sequence-section--asymmetric.photography-sequence-section--right .photography-card:last-child {
+    grid-column: 10 / 13;
+  }
+
+  .photography-card-index {
+    right: 8px;
+    bottom: 7px;
+    opacity: 0.55;
   }
 
   .photography-viewer {
