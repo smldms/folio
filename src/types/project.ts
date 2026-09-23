@@ -36,3 +36,42 @@ export interface ArtworkPresentation {
   platformLabel?: string | null;
   artworkId?: string | null;
 }
+
+export interface RewiredEpisodeDetails {
+  episodeNumber?: string | null;
+  youtubeUrl?: string | null;
+  shortDescription?: string | null;
+  sourceFilm?: string | null;
+  sourceYear?: string | null;
+  archiveUrl?: string | null;
+  rightsStatus?: string | null;
+  pinMain?: boolean | null;
+}
+
+export interface RewiredEpisode {
+  title: string;
+  date?: string | null;
+  rewiredDetails?: RewiredEpisodeDetails | null;
+}
+
+export interface AboutContent {
+  title: string;
+  content?: string | null;
+  featuredImage?: {
+    node?: {
+      sourceUrl?: string | null;
+      altText?: string | null;
+    } | null;
+  } | null;
+}
+
+export interface PhotographySelectionItem {
+  id: string;
+  title?: string | null;
+  caption?: string | null;
+  sourceUrl: string;
+  displayUrl?: string | null;
+  altText?: string | null;
+  width?: number | null;
+  height?: number | null;
+}
