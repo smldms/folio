@@ -21,12 +21,12 @@ export default function ProjectPage() {
   const art = current ? state.project?.artworkPresentation : null;
   const editorial = Boolean(art?.displayMode === 'interactive' && safeExternalUrl(art.artworkUrl));
   React.useEffect(() => {
-    if (!editorial) return;
+    if (!current || !state.project) return;
     document.body.classList.add('artwork-editorial-active');
     const previous = document.title;
     document.title = `${state.project?.title} — SMLDMS`;
     return () => { document.body.classList.remove('artwork-editorial-active'); document.title = previous; };
-  }, [editorial, state.project?.title]);
+  }, [current, state.project]);
   if (!current) return <div className="relative z-10 min-h-screen flex items-center justify-center" role="status">Loading project…</div>;
   if (state.error || !state.project) return <div className="relative z-10 min-h-screen flex flex-col items-center justify-center"><p>{state.error ? 'Unable to load this project.' : 'Project not found.'}</p><Link to="/projects">Back to works</Link></div>;
   return editorial ? <EditorialProject project={state.project} /> : <LegacyProjectPage project={state.project} />;
