@@ -1,4 +1,4 @@
-import type { Project, ArtworkPresentation, RewiredEpisode, AboutContent, PhotographySelectionItem } from '../types/project';
+import type { Project, ArtworkPresentation, RewiredEpisode, AboutContent, PhotographySelectionItem, PhotographySeries } from '../types/project';
 import { request, gql } from 'graphql-request';
 
 const endpoint = 'https://smldms.xyz/graphql';
@@ -221,6 +221,44 @@ export const getPhotographySelection = async (): Promise<PhotographySelectionIte
     return Array.isArray(data.smldmsPhotographySelection) ? data.smldmsPhotographySelection : null;
   } catch (error) {
     console.warn('Managed photography selection unavailable; using local photographs.', error);
+    return null;
+  }
+};
+
+export const getPhotographySeries = async (): Promise<PhotographySeries[] | null> => {
+  const query = gql`
+    query GetPhotographySeries {
+      smldmsPhotographySeries {
+        id
+        title
+        introduction
+        period
+        blocks {
+          id
+          layout
+          size
+          align
+          caption
+          images {
+            id
+            title
+            caption
+            sourceUrl
+            displayUrl
+            altText
+            width
+            height
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const data = await request<{ smldmsPhotographySeries: PhotographySeries[] | null }>(endpoint, query);
+    return Array.isArray(data.smldmsPhotographySeries) ? data.smldmsPhotographySeries : null;
+  } catch (error) {
+    console.info('Photography story builder is not available yet; using the ordered selection.', error);
     return null;
   }
 };
