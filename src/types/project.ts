@@ -75,3 +75,24 @@ export interface PhotographySelectionItem {
   width?: number | null;
   height?: number | null;
 }
+
+export type PhotographyBlockLayout = 'solo' | 'diptych' | 'triptych' | 'quadriptych';
+export type PhotographyBlockSize = 'full' | 'large' | 'medium' | 'small';
+export type PhotographyBlockAlign = 'left' | 'center' | 'right';
+
+export interface PhotographyBlock {
+  id: string;
+  layout: PhotographyBlockLayout;
+  size?: PhotographyBlockSize | null;
+  align?: PhotographyBlockAlign | null;
+  caption?: string | null;
+  images: PhotographySelectionItem[];
+}
+
+export interface PhotographySeries {
+  id: string;
+  title?: string | null;
+  introduction?: string | null;
+  period?: string | null;
+  blocks: PhotographyBlock[];
+}
