@@ -76,6 +76,20 @@ export interface PhotographySelectionItem {
   height?: number | null;
 }
 
+export interface HomepageProject {
+  title: string;
+  slug: string;
+  description?: string | null;
+  artworkUrl?: string | null;
+  network?: string | null;
+}
+
+export interface HomepageSettings {
+  photograph?: PhotographySelectionItem | null;
+  runtimeProject?: HomepageProject | null;
+  exploreProjects?: HomepageProject[] | null;
+}
+
 export type PhotographyBlockLayout = 'solo' | 'diptych' | 'triptych' | 'quadriptych';
 export type PhotographyBlockSize = 'full' | 'large' | 'medium' | 'small';
 export type PhotographyBlockAlign = 'left' | 'center' | 'right';

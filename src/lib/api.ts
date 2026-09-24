@@ -1,4 +1,4 @@
-import type { Project, ArtworkPresentation, RewiredEpisode, AboutContent, PhotographySelectionItem, PhotographySeries } from '../types/project';
+import type { Project, ArtworkPresentation, RewiredEpisode, AboutContent, PhotographySelectionItem, PhotographySeries, HomepageSettings } from '../types/project';
 import { request, gql } from 'graphql-request';
 
 const endpoint = 'https://smldms.xyz/graphql';
@@ -259,6 +259,44 @@ export const getPhotographySeries = async (): Promise<PhotographySeries[] | null
     return Array.isArray(data.smldmsPhotographySeries) ? data.smldmsPhotographySeries : null;
   } catch (error) {
     console.info('Photography story builder is not available yet; using the ordered selection.', error);
+    return null;
+  }
+};
+
+export const getHomepageSettings = async (): Promise<HomepageSettings | null> => {
+  const query = gql`
+    query GetHomepageSettings {
+      smldmsHomepageSettings {
+        photograph {
+          id
+          title
+          sourceUrl
+          displayUrl
+          altText
+          width
+          height
+        }
+        runtimeProject {
+          title
+          slug
+          description
+          artworkUrl
+          network
+        }
+        exploreProjects {
+          title
+          slug
+          description
+        }
+      }
+    }
+  `;
+
+  try {
+    const data = await request<{ smldmsHomepageSettings: HomepageSettings | null }>(endpoint, query);
+    return data.smldmsHomepageSettings || null;
+  } catch (error) {
+    console.info('Homepage manager unavailable; keeping the current homepage defaults.', error);
     return null;
   }
 };
