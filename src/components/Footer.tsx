@@ -46,7 +46,7 @@ const Footer = () => {
             </a>
           </div>
           <div className="text-white/50 font-space-grotesk text-sm">
-            © 2025 SMLDMS. All rights reserved.
+            © 2026 SMLDMS. All rights reserved.
           </div>
         </div>
       </div>
